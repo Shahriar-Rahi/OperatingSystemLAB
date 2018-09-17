@@ -1,31 +1,33 @@
 #include<iostream>
 using namespace std;
-
-void findWaitingTime(int processes[], int n, int bt[], int wt[])
+ 
+void findWaitingTime(int order[], int n, int bt[], int wt[])
 {
     wt[0] = 0;
  
-    for (int  i = 1; i < n ; i++ )
-        wt[i] =  bt[i-1] + wt[i-1] ;
+    for (int  i = 1; i < n ; i++ ){
+		int ord = order[i-1];
+		wt[i] =  bt[ord-1] + wt[i-1] ;
+	}
 }
  
-void findTurnAroundTime( int processes[], int n, int bt[], int wt[], int tat[])
+void findTurnAroundTime(int order[], int n, int bt[], int wt[], int tat[])
 {
-
-    for (int  i = 0; i < n ; i++)
+    for (int i = 0; i < n ; i++)
         tat[i] = bt[i] + wt[i];
 }
 
-void ganttChart(int processes[], int n, int wt[]){
+void ganttChart(int order[], int n, int wt[]){
 	cout << endl << endl;  
-	for(int i = 1; i < n; i++){
-		cout << "P[" << i << "]";  
-		int w = wt[i];
+	for(int i = 0; i < n; i++){
+		int ord = order[i];
+		cout << "P[" << ord << "]";  
+		int w = wt[ord-1];
 		for(int j = 0; j < w; j++){
 			cout << "-";
 		}
-		if(i == n - 1)
-			cout << "P[" << i+1 << "]";		
+		//if(i == n - 1)
+			//cout << "P[" << ord << "]";		
 	}
 	
 	cout << endl;
@@ -39,42 +41,53 @@ void ganttChart(int processes[], int n, int wt[]){
 	}
 	
 }
- 
-void findavgTime( int processes[], int n, int bt[])
+
+void findavgTime(int order[], int n, int bt[])
 {
-    int wt[n], tat[n], total_wt = 0, total_tat = 0;
+    int wt[n], tat[n];
  
-    findWaitingTime(processes, n, bt, wt);
+    findWaitingTime(order, n, bt, wt);
  
-    findTurnAroundTime(processes, n, bt, wt, tat);
+    findTurnAroundTime(order, n, bt, wt, tat);
  
-    cout << "Processes  "<< " Burst time  "
-         << " Waiting time  " << " Turn around time\n";
- 
-    for (int  i=0; i<n; i++)
+    cout << "Processes " << "Order " << " Burst Time "  << " Waiting Time " << " Turn-Around Time\n";
+    int total_wt = 0, total_tat = 0;
+    for (int i = 0 ; i < n ; i++)
     {
+    	int ord = order[i];
         total_wt = total_wt + wt[i];
         total_tat = total_tat + tat[i];
-        cout << "   " << i+1 << "\t\t" << bt[i] <<"\t    "
-            << wt[i] <<"\t\t  " << tat[i] <<endl;
+        cout << "P["<< i+1 << "]" << "\t" << "P[" << ord <<"]"<< "\t\t" << bt[i] << "\t\t" << wt[ord] << "\t\t " << tat[ord]  << "\t\t" << endl;
     }
- 
-    cout << "Average waiting time = "
+    cout << "\nAverage waiting time = "
          << (float)total_wt / (float)n;
     cout << "\nAverage turn around time = "
          << (float)total_tat / (float)n;
          
-    ganttChart(processes, n, wt);
+	ganttChart(order, n, wt);
 }
 
- 
 int main()
 {
-    int processes[] = { 1, 2, 3};
-    int n = sizeof processes / sizeof processes[0];
+    int n;
+    cout << "Number of process: " << endl;
+    cin >> n;
+    int processes[n], burst_time[n], order[n];
+    cout << endl << "Process ID's: " << endl;
+    for(int i = 0; i < n; i++){
+    	cin >> processes[i];
+	}
+	cout << endl << "Order" << endl;
+	for(int i = 0; i< n; i++){
+    	cin >> order[i];
+	}
+ 	cout << endl << "Burst time of all processes: " << endl;
+
+    for(int i = 0; i< n; i++){
+    	cin >> burst_time[i];
+	}
  
-    int  burst_time[] = {10, 5, 8};
+    findavgTime(order, n, burst_time);
  
-    findavgTime(processes, n,  burst_time);
     return 0;
 }
