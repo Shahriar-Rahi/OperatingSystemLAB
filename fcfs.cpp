@@ -59,10 +59,8 @@ void findavgTime(int order[], int n, int bt[])
         total_tat = total_tat + tat[i];
         cout << "P["<< i+1 << "]" << "\t" << "P[" << ord <<"]"<< "\t\t" << bt[i] << "\t\t" << wt[ord] << "\t\t " << tat[ord]  << "\t\t" << endl;
     }
-    cout << "\nAverage waiting time = "
-         << (float)total_wt / (float)n;
-    cout << "\nAverage turn around time = "
-         << (float)total_tat / (float)n;
+    cout << "\nAverage waiting time = "<< (float)total_wt / (float)n;
+    cout << "\nAverage turn around time = "<< (float)total_tat / (float)n;
          
 	ganttChart(order, n, wt);
 }
