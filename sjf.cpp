@@ -91,17 +91,6 @@ void findavgTime(Order orde[], int n)
  
 int main()
 {
-    /*Process proc[] = {{1, 6}, {2, 8}, {3, 7}, {4, 3}};
-    int n = sizeof proc / sizeof proc[0];
- 
-    // Sorting processes by burst time.
-    sort(proc, proc + n, comparison);
- 
-    cout << "Order in which process gets executed\n";
-    for (int i = 0 ; i < n; i++)
-        cout << proc[i].pid <<" ";
- 
-    findavgTime(proc, n);*/
     
     int n;
     cout << "Number of process: " << endl;
@@ -123,4 +112,3 @@ int main()
     findavgTime(orde, n);
     return 0;
 }
-
